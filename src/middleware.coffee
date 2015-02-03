@@ -97,11 +97,9 @@ module.exports = (Model, opts) ->
         m = new req.resource.Model()
         m[key] = value for own key, value of req.body
         o = m.toObject()
-        req.body[key] = value for own key, value of o
-        delete req.body._id
+        delete o._id
         delete req.body.__v
-        res.locals[req.resource.name][key] = value \
-          for own key, value of req.body
+        res.locals[req.resource.name][key] = value for own key, value of o
         done()
 
     save: ->
