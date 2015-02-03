@@ -9,9 +9,11 @@ module.exports = (Model, opts) ->
       if Model? or opts?
         {key, name, plural, collectionName} = (opts or {})
         unless key?
-          key = Model.modelName
-          key = "#{key[0].toLowerCase()}#{key[1..]}"
-        collectionName = Model.collection.name unless collectionName?
+          if Model?
+            key = Model.modelName
+            key = "#{key[0].toLowerCase()}#{key[1..]}"
+        if Model?
+          collectionName = Model.collection.name unless collectionName?
         unless plural?
           if name?
             plural = "#{name}s"
@@ -50,6 +52,9 @@ module.exports = (Model, opts) ->
               plural: @plural
               Model: @Model
 
+          req.resource.name = @name if @name
+          req.resource.plural = @plural if @plural
+          req.resource.Model = @Model if @Model
           if @key
             req.resource.key = @key
           else
