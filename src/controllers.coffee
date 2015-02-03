@@ -10,29 +10,36 @@ module.exports = (args ...) ->
 
   list: -> [
     r.loadAll()
-    r.view "#{r.collectionName}/list"
+    (req, res, done) ->
+      res.render "#{req.resource.collectionName}/list"
   ]
 
   new: -> [
     r.new()
-    r.view "#{r.collectionName}/edit"
+    (req, res, done) ->
+      res.render "#{req.resource.collectionName}/edit"
   ]
 
   edit: -> [
     r.load()
-    r.view "#{r.collectionName}/edit", true
+    (req, res, done) ->
+      return done() unless res.locals[req.resource.name]
+      res.render "#{req.resource.collectionName}/edit"
   ]
 
   show: -> [
     r.load()
-    r.view "#{r.collectionName}/show", true
+    (req, res, done) ->
+      return done() unless res.locals[req.resource.name]
+      res.render "#{req.resource.collectionName}/show"
   ]
 
   create: -> [
     r.create()
     r.save()
     r.redirectOnSuccess 'edit'
-    r.view "#{r.collectionName}/edit", true
+    (req, res, done) ->
+      res.render "#{req.resource.collectionName}/edit"
   ]
 
   update: -> [
@@ -40,10 +47,13 @@ module.exports = (args ...) ->
     r.update()
     r.save()
     r.redirectOnSuccess 'edit'
-    r.view "#{r.collectionName}/edit", true
+    (req, res, done) ->
+      return done() unless res.locals[req.resource.name]
+      res.render "#{req.resource.collectionName}/edit"
   ]
 
   destroy: -> [
     r.destroy()
-    r.redirect "/#{r.collectionName}"
+    (req, res, done) ->
+      res.redirect "#{req.baseUrl}/#{req.resource.collectionName}"
   ]

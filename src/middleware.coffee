@@ -54,6 +54,10 @@ module.exports = (Model, opts) ->
             req.resource.key = @key
           else
             req.resource.key = req.resource.name
+          if @collectionName
+            req.resource.collectionName = @collectionName
+          else
+            req.resource.collectionName = req.resource.plural
           done()
 
         fn args ...
