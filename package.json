@@ -1,0 +1,27 @@
+{
+  "name": "express-resource-architect",
+  "version": "0.0.0",
+  "description": "Build restful routed applications.",
+  "main": "lib/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "coffee-script": "^1.9.0",
+    "express": "^4.11.2",
+    "mocha": "^2.1.0",
+    "mongoose": "^3.8.22",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0"
+  },
+  "scripts": {
+    "prepublish": "coffee -c -b -o lib/ src/",
+    "test": "mocha --compilers coffee:coffee-script/register tests"
+  },
+  "keywords": [
+    "rest",
+    "express",
+    "routing"
+  ],
+  "author": "Dominik Burgdörfer <db@domachine.de>",
+  "license": "ISC"
+}
