@@ -3,65 +3,60 @@
 Middleware: Specific building blocks for controllers.
 ###
 module.exports = (Model, opts) ->
+  pre = []
 
   self =
     _initialize: ->
-      if Model? or opts?
-        {key, name, plural, collectionName} = (opts or {})
-        unless key?
-          if Model?
-            key = Model.modelName
-            key = "#{key[0].toLowerCase()}#{key[1..]}"
-        if Model?
-          collectionName = Model.collection.name unless collectionName?
-        unless plural?
-          if name?
-            plural = "#{name}s"
-          else
-            plural = collectionName
-        name = key unless name?
+      opts = {} unless opts?
+      if opts.collection?.name?
+        Model = opts
+        opts = null
+      @opts = opts or {}
+      @opts.Model = Model if Model?
 
-        @Model = Model
-        @key = key
-        @name = name
-        @plural = plural
-        @collectionName = collectionName
+      @middleware [
+        'new'
+        'create'
+        'loadAll'
+        'load'
+        'update'
+        'save'
+        'redirectOnSuccess'
+        'destroy'
+        'redirect'
+        'view'
+      ]
 
-      @_middleware 'new'
-      @_middleware 'create'
-      @_middleware 'loadAll'
-      @_middleware 'load'
-      @_middleware 'update'
-      @_middleware 'save'
-      @_middleware 'redirectOnSuccess'
-      @_middleware 'destroy'
-      @_middleware 'redirect'
-      @_middleware 'view'
+    middleware: (props) ->
+      @__middleware = props
+      @_middleware prop for prop in props
 
     ###
     Initialize middleware.
     ###
-    _middleware: (key) ->
-      fn = self[key]
-      fn = fn.bind(self)
-      self[key] = (args ...) -> [
-        (req, res, done) =>
-          unless req.resource?
-            req.resource =
-              name: @name
-              plural: @plural
-              Model: @Model
+    _middleware: (prop) ->
+      fn = self[prop]
+      fn = fn.bind(this)
+      self[prop] = (args ...) -> [
+        (req, res, done) ->
 
-          req.resource.name = @name if @name
-          req.resource.plural = @plural if @plural
-          req.resource.Model = @Model if @Model
-          if @key
-            req.resource.key = @key
+          # Calculate the user settings and fill optional fields
+          # with default values if necessary.
+          req.resource = {} unless req.resource?
+          for opt in ['key', 'name', 'plural', 'collectionName', 'Model']
+            req.resource[opt] = opts[opt]
+          if req.resource.name?
+            unless req.resource.plural?
+              req.resource.plural = "#{req.resource.name}s"
           else
+            name = req.resource.Model.modelName
+            req.resource.name = "#{name[0].toLowerCase()}#{name[1..]}"
+            unless req.resource.plural?
+              plural = req.resource.Model.collection.name
+              req.resource.plural = "#{plural[0].toLowerCase()}#{plural[1..]}"
+          unless req.resource.key?
             req.resource.key = req.resource.name
-          if @collectionName
-            req.resource.collectionName = @collectionName
-          else
+          unless req.resource.collectionName
             req.resource.collectionName = req.resource.plural
           done()
 

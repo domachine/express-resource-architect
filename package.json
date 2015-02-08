@@ -5,9 +5,11 @@
   "main": "lib/index.js",
   "dependencies": {},
   "devDependencies": {
+    "blanket": "^1.1.6",
     "chai": "^1.10.0",
     "coffee-script": "^1.9.0",
     "express": "^4.11.2",
+    "highland": "^2.3.0",
     "mocha": "^2.1.0",
     "mongoose": "^3.8.22",
     "sinon": "^1.12.2",
@@ -15,7 +17,15 @@
   },
   "scripts": {
     "prepublish": "coffee -c -b -o lib/ src/",
-    "test": "mocha --compilers coffee:coffee-script/register tests"
+    "test": "mocha --compilers coffee:coffee-script/register tests",
+    "coverage": "mocha --compilers coffee:coffee-script/register --require blanket --reporter html-cov tests/ > coverage.html"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "src",
+      "data-cover-never": "node_modules",
+      "loader": "./node-loaders/coffee-script"
+    }
   },
   "keywords": [
     "rest",
