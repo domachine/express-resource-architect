@@ -3,57 +3,60 @@ middleware = require('./middleware')
 ###
 Predefined controllers for typical functionality.
 ###
-module.exports = (args ...) ->
-  r = middleware(args ...)
+module.exports = (args ...) -> return new ControllerBundle(args ...)
 
-  middleware: r
+class ControllerBundle
+  constructor: (args ...) ->
+    @middleware = middleware(args ...)
 
   list: -> [
-    r.loadAll()
+    @middleware.loadAll()
     (req, res, done) ->
       res.render "#{req.resource.collectionName}/list"
   ]
 
   new: -> [
-    r.new()
+    @middleware.new()
     (req, res, done) ->
       res.render "#{req.resource.collectionName}/edit"
   ]
 
   edit: -> [
-    r.load()
+    @middleware.load()
     (req, res, done) ->
       return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/edit"
   ]
 
   show: -> [
-    r.load()
+    @middleware.load()
     (req, res, done) ->
       return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/show"
   ]
 
   create: -> [
-    r.create()
-    r.save()
-    r.redirectOnSuccess 'edit'
+    @middleware.create()
+    @middleware.save()
+    @middleware.redirectOnSuccess 'edit'
     (req, res, done) ->
       res.render "#{req.resource.collectionName}/edit"
   ]
 
   update: -> [
-    r.load()
-    r.update()
-    r.save()
-    r.redirectOnSuccess 'edit'
+    @middleware.load()
+    @middleware.update()
+    @middleware.save()
+    @middleware.redirectOnSuccess 'edit'
     (req, res, done) ->
       return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/edit"
   ]
 
   destroy: -> [
-    r.destroy()
+    @middleware.destroy()
     (req, res, done) ->
       res.redirect "#{req.baseUrl}/#{req.resource.collectionName}"
   ]
+
+exports.ControllerBundle = ControllerBundle
