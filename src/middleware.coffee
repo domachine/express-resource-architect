@@ -8,9 +8,9 @@ module.exports = (Model, opts) ->
   self =
     _initialize: ->
       opts = {} unless opts?
-      if opts.collection?.name?
-        Model = opts
-        opts = null
+      unless Model?.collection?.name?
+        opts = Model
+        Model = null
       @opts = opts or {}
       @opts.Model = Model if Model?
 
@@ -37,14 +37,14 @@ module.exports = (Model, opts) ->
     _middleware: (prop) ->
       fn = self[prop]
       fn = fn.bind(this)
-      self[prop] = (args ...) -> [
-        (req, res, done) ->
+      self[prop] = (args ...) => [
+        (req, res, done) =>
 
           # Calculate the user settings and fill optional fields
           # with default values if necessary.
           req.resource = {} unless req.resource?
           for opt in ['key', 'name', 'plural', 'collectionName', 'Model']
-            req.resource[opt] = opts[opt]
+            req.resource[opt] = @opts[opt]
           if req.resource.name?
             unless req.resource.plural?
               req.resource.plural = "#{req.resource.name}s"
@@ -56,8 +56,12 @@ module.exports = (Model, opts) ->
               req.resource.plural = "#{plural[0].toLowerCase()}#{plural[1..]}"
           unless req.resource.key?
             req.resource.key = req.resource.name
-          unless req.resource.collectionName
-            req.resource.collectionName = req.resource.plural
+          unless req.resource.collectionName?
+            req.resource.collectionName =
+              if req.resource.Model?
+                req.resource.Model.collection.name
+              else
+                req.resource.plural
           done()
 
         fn args ...
