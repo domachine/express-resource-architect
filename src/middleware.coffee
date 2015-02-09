@@ -44,7 +44,7 @@ module.exports = (Model, opts) ->
           # with default values if necessary.
           req.resource = {} unless req.resource?
           for opt in ['key', 'name', 'plural', 'collectionName', 'Model']
-            req.resource[opt] = @opts[opt]
+            req.resource[opt] = @opts[opt] unless req.resource[opt]?
           if req.resource.name?
             unless req.resource.plural?
               req.resource.plural = "#{req.resource.name}s"
