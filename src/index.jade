@@ -1,0 +1,69 @@
+doctype html
+
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='Width=device-width, initial-scale=1')
+    link(rel='stylesheet' href='css/index.css')
+
+    link(rel='shortcut icon', href='images/favicon.ico')
+    link(rel='apple-touch-icon', href='images/apple-touch-icon.png')
+    link(rel='apple-touch-icon', sizes='72x72', href='images/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon', sizes='114x114', href='images/apple-touch-icon-114x114.png')
+
+    title express-resource-architect by domachine
+  body
+    .container
+      .jumbotron
+        .row
+          .col-md-3
+            img(src='images/logo.svg' width='100%')
+          .col-md-9
+            h2
+              i Hello Mr. Architect!
+            p
+              :markdown
+                **express-resource-architect** is a library to ease
+                the construction of MVC oriented applications.  It
+                provides you with the right tools to get your job done
+                without loosing flexibility.
+            p
+              br
+              a.btn.btn-lg.btn-primary(href='https://github.com/domachine/express-resource-architect')
+                i.fa.fa-arrow-circle-right
+                span  Let&apos;s get started!
+
+    .container
+      p
+        .row
+          .col-md-3
+            i.fa.fa-5x.fa-pencil-square-o.pull-right(style='margin-top:20px')
+          .col-md-9
+            h3 Plan your application
+            p
+
+              Plan your application like you&apos;re used to.
+              Everything stays NodeJS and Express.  No hassle to learn a
+              new framework or command-line tools.
+      p
+        .row
+          .col-md-3
+            i.fa.fa-5x.fa-wrench.pull-right(style='margin-top:20px')
+          .col-md-9
+            h3 Work and shape it using the architect
+            p
+
+              The architect gives you the right abstraction at the right
+              point so you stand upright even if things get complex.
+
+    script(src='js/jquery-2.1.1.min.js')
+    script(src='js/bootstrap.min.js')
+    script.
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-54406533-4', 'auto');
+      ga('send', 'pageview');
