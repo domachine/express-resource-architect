@@ -45,28 +45,21 @@ module.exports = (Model, opts) ->
           req.resource = {} unless req.resource?
           for opt in ['key', 'name', 'plural', 'collectionName', 'Model']
             req.resource[opt] = @opts[opt] if @opts[opt]?
-          if req.resource.name?
-            unless req.resource.plural?
-              req.resource.plural = "#{req.resource.name}s"
+          if @opts.name?
+            unless @opts.plural?
+              req.resource.plural = "#{@opts.name}s"
           else
             name = req.resource.Model.modelName
             req.resource.name = "#{name[0].toLowerCase()}#{name[1..]}"
-            unless req.resource.plural?
+            unless @opts.plural?
               plural = req.resource.Model.collection.name
               req.resource.plural = "#{plural[0].toLowerCase()}#{plural[1..]}"
-          unless req.resource.key?
-            req.resource.key =
-              if req.resource.Model?
-                name = req.resource.Model.modelName
-                "#{name[0].toLowerCase()}#{name[1..]}"
-              else
-                req.resource.name
-          unless req.resource.collectionName?
-            req.resource.collectionName =
-              if req.resource.Model?
-                req.resource.Model.collection.name
-              else
-                req.resource.plural
+          unless @opts.key?
+            req.resource.key = do ->
+              name = req.resource.Model.modelName
+              "#{name[0].toLowerCase()}#{name[1..]}"
+          unless @opts.collectionName?
+            req.resource.collectionName = req.resource.Model.collection.name
           done()
 
         fn args ...
