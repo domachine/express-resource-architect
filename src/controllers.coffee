@@ -24,14 +24,14 @@ class ControllerBundle
   edit: -> [
     @middleware.load()
     (req, res, done) ->
-      return done() unless res.locals[req.resource.key]
+      return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/edit"
   ]
 
   show: -> [
     @middleware.load()
     (req, res, done) ->
-      return done() unless res.locals[req.resource.key]
+      return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/show"
   ]
 
@@ -49,7 +49,7 @@ class ControllerBundle
     @middleware.save()
     @middleware.redirectOnSuccess 'edit'
     (req, res, done) ->
-      return done() unless res.locals[req.resource.key]
+      return done() unless res.locals[req.resource.name]
       res.render "#{req.resource.collectionName}/edit"
   ]
 

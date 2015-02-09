@@ -137,7 +137,7 @@ describe 'Resource', ->
     before ->
       @Employee = mongoose.model('Employee')
       @employees = [new @Employee(), new @Employee()]
-      @employee = Resource.middleware(@Employee)
+      @employee = Resource.middleware(@Employee, {name: 'emp'})
 
       @testMiddleware = (req, res, fns, done) ->
         res.locals = {} unless res.locals?
@@ -162,10 +162,10 @@ describe 'Resource', ->
           should.exist req.resource
           req.resource.Model.should.equal @Employee
           req.resource.key.should.equal 'employee'
-          req.resource.name.should.equal 'employee'
-          req.resource.plural.should.equal 'employees'
+          req.resource.name.should.equal 'emp'
+          req.resource.plural.should.equal 'emps'
           req.resource.collectionName.should.equal 'employees'
-          res.locals.employee.should.be.instanceof @Employee
+          res.locals.emp.should.be.instanceof @Employee
           done()
 
     describe '#create', ->
@@ -177,7 +177,7 @@ describe 'Resource', ->
 
         @testMiddleware req, {}, @employee.create(), (err, req, res) =>
           return done(err) if err
-          res.locals.employee.name.should.equal req.body.name
+          res.locals.emp.name.should.equal req.body.name
           done()
 
       it 'should refuse to create new object with malicious body', (done) ->
@@ -188,8 +188,8 @@ describe 'Resource', ->
 
         @testMiddleware req, {}, @employee.create(), (err, req, res) =>
           return done(err) if err
-          res.locals.employee.name.should.equal req.body.name
-          should.not.exist res.locals.employee.reference
+          res.locals.emp.name.should.equal req.body.name
+          should.not.exist res.locals.emp.reference
           done()
 
     describe '#loadAll', ->
@@ -202,7 +202,7 @@ describe 'Resource', ->
           @testMiddleware {}, {}, @employee.loadAll(), (err, req, res) =>
             return done(err) if err
             @Employee.find.should.have.callCount 1
-            res.locals.employees.should.equal @employees
+            res.locals.emps.should.equal @employees
             done()
 
       describe 'failCase', ->
@@ -240,7 +240,7 @@ describe 'Resource', ->
             return done(err) if err
             @Employee.findById.should.have.been.calledOnce
             @Employee.findById.args[0][0].should.equal 'testId'
-            res.locals.employee.should.be.instanceof @Employee
+            res.locals.emp.should.be.instanceof @Employee
             done()
 
         after ->
@@ -279,13 +279,13 @@ describe 'Resource', ->
           sinon.stub(@e, 'save').yields null, @e
 
         it 'should save the object', (done) ->
-          res = locals: employee: @e
+          res = locals: emp: @e
           @testMiddleware {}, res, @employee.save(), (err, req, res) =>
             return done(err) if err
             @e.save.should.have.been.calledOnce
-            res.locals.employee.isModified().should.be.false
-            res.locals.employee.should.equal @e
-            should.not.exist res.locals.employee.errors
+            res.locals.emp.isModified().should.be.false
+            res.locals.emp.should.equal @e
+            should.not.exist res.locals.emp.errors
             done()
 
         after ->
@@ -298,10 +298,10 @@ describe 'Resource', ->
 
         it 'should refuse to save the object', (done) ->
           @e.name = 'test'
-          res = locals: employee: @e
+          res = locals: emp: @e
           @testMiddleware {}, res, @employee.save(), (err, req, res) =>
             return done(err) if err
-            res.locals.employee.isModified().should.be.true
+            res.locals.emp.isModified().should.be.true
             done()
 
         after ->
@@ -313,7 +313,7 @@ describe 'Resource', ->
           sinon.stub(@e, 'save').yields new Error('Failed!')
 
         it 'should throw the error', (done) ->
-          res = locals: employee: @e
+          res = locals: emp: @e
           @testMiddleware {}, res, @employee.save(), (err, req, res) =>
             should.exist err
             err.message.should.equal 'Failed!'
