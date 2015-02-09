@@ -3,7 +3,7 @@ middleware = require('./middleware')
 ###
 Predefined controllers for typical functionality.
 ###
-module.exports = (args ...) -> return new ControllerBundle(args ...)
+exports = module.exports = (args ...) -> return new ControllerBundle(args ...)
 
 class ControllerBundle
   constructor: (args ...) ->
