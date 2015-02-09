@@ -33,5 +33,16 @@
     "routing"
   ],
   "author": "Dominik Burgdörfer <db@domachine.de>",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domachine/express-resource-architect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/domachine/express-resource-architect/issues"
+  },
+  "homepage": "https://github.com/domachine/express-resource-architect"
 }
