@@ -4,12 +4,15 @@ module.exports = (grunt) ->
   pages = [
     'index'
     'getting-started'
+    'api'
   ]
 
   grunt.initConfig
     jade:
       options:
         pretty: true
+        data: (dest, src) ->
+          filename: dest
       pages:
         files: do ->
           opts = {}
