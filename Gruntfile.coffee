@@ -3,6 +3,7 @@ module.exports = (grunt) ->
 
   pages = [
     'index'
+    'getting-started'
   ]
 
   grunt.initConfig
@@ -21,7 +22,7 @@ module.exports = (grunt) ->
           './css/index.css': ['src/less/index.less']
     watch:
       pages:
-        files: ['src/**/*.jade']
+        files: ['src/**/*.jade', 'src/**/*.md']
         tasks: ['jade:pages']
       css:
         files: ['src/less/**/*']

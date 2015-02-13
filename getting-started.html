@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="Width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    <title>express-resource-architect by domachine</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display-->
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="index.html" class="navbar-brand"><img style="height:70px" src="images/logo.svg" class="img-responsive"></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling-->
+        <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Architect</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse-->
+      </div>
+      <!-- /.container-fluid-->
+    </nav>
+    <div class="container">
+      <h1>Getting started</h1>
+      <div class="alert alert-danger"><strong>Warning!</strong><span><p><em>This is currently under heavy development</em>.  It might quickly
+ change. You should probably not use it before <em>1.0.0</em>.</p>
+</span></div><h2 id="installation">Installation</h2>
+<pre><code>$ npm install --save express-resource-architect
+</code></pre><h2 id="idea">Idea</h2>
+<p>As we&#39;re developing many applications in a restful manner with express
+and mongoose, I saw a lot of code being duplicated over and over
+again.  We&#39;ve got many use-cases where a resource should be manageable
+using a nice interface.  In 80 percent of all cases, this consists of
+the typical MVC views:</p>
+<ul>
+<li><code>new</code></li>
+<li><code>create</code></li>
+<li><code>edit</code></li>
+<li><code>update</code></li>
+</ul>
+<p>We solve this by splitting such a resource in 2 parts.  One is the
+route registration, the second is the controller which is
+representated using the route-handler an express app receives.</p>
+<p><strong>Example:</strong></p>
+<p><em>Route registration</em></p>
+<script src="https://gist.github.com/domachine/ef60a40361584a1422fd.js"></script>
+
+<p><em>Controller (controllers/users.coffee)</em></p>
+<script src="https://gist.github.com/domachine/d16e213d4b74162238d7.js"></script>
+
+<p>Controllers of those simple cases are needed over and over again.
+This is really error-prone and could be abstracted I think so I
+started this tiny module.</p>
+<p>The first abstraction is the idea that controllers should have simple
+default routes based on their name.  So using this module we could
+write the above example like the following:</p>
+<script src="https://gist.github.com/domachine/491eebc30373675898f5.js"></script>
+
+<p>The controller is then as easy as this:</p>
+<script src="https://gist.github.com/domachine/2505e7fa9df5ec8b413b.js"></script>
+
+<p>This is a really leaky abstraction you may say, but for cases where
+you need more control we also got some awesomeness: <em>middleware</em>.
+These are tinier pieces of a controller (in fact every controller
+consists of middleware) which can be used independly.  This does the
+same as the above example:</p>
+<script src="https://gist.github.com/domachine/7eef4bc67b3af5b6f560.js"></script>
+
+<p>I&#39;m currently working hard to shape the API and stabilize this thing.
+Currently it&#39;s an idea that follows frameworks like sails or ruby on
+rails but without the bloat and the loss of flexibility since it
+always remains express.</p>
+
+    </div>
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-54406533-4', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
