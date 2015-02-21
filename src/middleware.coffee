@@ -85,7 +85,12 @@ module.exports = (Model, opts) ->
     load: ->
       (req, res, done) =>
         req.resource.Model.findById req.params[req.resource.key], (err, o) =>
-          return done(err) if err
+          if err
+            if err.name is 'CastError'
+              done()
+            else
+              done(err)
+            return
           return done() unless o
           res.locals[req.resource.name] = o
           done()
