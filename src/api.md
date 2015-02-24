@@ -36,10 +36,53 @@ corresponding routes.
  each value must be a valid
  [express route handler](http://expressjs.com/4x/api.html#app.METHOD).
 
-## architect.middleware()
+## architect.middleware([model], [opts])
 
-*docs coming soon*
+Instantiates a new middleware bundle for the specified arguments.  If no model
+or opts are given, they are derived from the router.
 
-## architect.controllers()
+*Options*
+ * `name` - Specify the resource name if no model is available.
+ * `plural` - Specify the resource plural if no model is available.
+ * `key` - The param-name to read the id from the url.
+ * `collectionName` - The collection-name to use if no model is available.
 
-*docs coming soon*
+### Available middleware
+
+#### .load()
+
+Load the object using the id read from the url params.
+
+#### .loadAll()
+
+Load all available objects and populate them under the resource plural.
+
+#### .update()
+
+Update the loaded object.
+
+#### .save()
+
+Save the loaded object.
+
+#### .redirectOnSuccess(url)
+
+Redirect after a successful save operation.
+
+#### .destroy()
+
+Remove the loaded object from the database.
+
+#### .redirect(url)
+
+Redirect to `url`.
+
+#### .view(name)
+
+Render the specified view.
+
+## architect.controllers([model], [opts])
+
+This takes the exact same arguments as `.middleware()`.
+
+It returns an object with controllers for each resource action.

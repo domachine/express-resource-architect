@@ -22,7 +22,7 @@
         <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.html">Architect</a></li>
-            <li class="active"><a href="getting-started.html">Getting started</a></li>
+            <li><a href="getting-started.html">Getting started</a></li>
             <li><a href="api.html">Docs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -38,53 +38,13 @@
       <div class="alert alert-warning"><strong>Warning!</strong><span><p><em>This is now in developer preview</em>.  Check out the
  <a href="api.html">docs</a> and try.  Your feedback is welcome.</p>
 </span></div>
-      <h1>Getting started</h1><h2 id="installation">Installation</h2>
-<pre><code>$ npm install --save express-resource-architect
-</code></pre><h2 id="idea">Idea</h2>
-<p>As we&#39;re developing many applications in a restful manner with express
-and mongoose, I saw a lot of code being duplicated over and over
-again.  We&#39;ve got many use-cases where a resource should be manageable
-using a nice interface.  In 80 percent of all cases, this consists of
-the typical MVC views:</p>
-<ul>
-<li><code>new</code></li>
-<li><code>create</code></li>
-<li><code>edit</code></li>
-<li><code>update</code></li>
-</ul>
-<p>We solve this by splitting such a resource in 2 parts.  One is the
-route registration, the second is the controller which is
-representated using the route-handler an express app receives.</p>
-<p><strong>Example:</strong></p>
-<p><em>Route registration</em></p>
-<script src="https://gist.github.com/domachine/ef60a40361584a1422fd.js"></script>
+      <h1>Project status</h1>
+      <p><p>This project is in an early stage and not yet production-ready.  Keep up
+with the version number:  A stable state is signaled with a version
+<em>1.0.0</em> or above.  In the meantime you&#39;re welcome to review the project
+and get involved to push it&#39;s API to the highest flexibility.</p>
 
-<p><em>Controller (controllers/users.coffee)</em></p>
-<script src="https://gist.github.com/domachine/d16e213d4b74162238d7.js"></script>
-
-<p>Controllers of those simple cases are needed over and over again.
-This is really error-prone and could be abstracted I think so I
-started this tiny module.</p>
-<p>The first abstraction is the idea that controllers should have simple
-default routes based on their name.  So using this module we could
-write the above example like the following:</p>
-<script src="https://gist.github.com/domachine/491eebc30373675898f5.js"></script>
-
-<p>The controller is then as easy as this:</p>
-<script src="https://gist.github.com/domachine/2505e7fa9df5ec8b413b.js"></script>
-
-<p>This is a really leaky abstraction you may say, but for cases where
-you need more control we also got some awesomeness: <em>middleware</em>.
-These are tinier pieces of a controller (in fact every controller
-consists of middleware) which can be used independly.  This does the
-same as the above example:</p>
-<script src="https://gist.github.com/domachine/7eef4bc67b3af5b6f560.js"></script>
-
-<p>I&#39;m currently working hard to shape the API and stabilize this thing.
-Currently it&#39;s an idea that follows frameworks like sails or ruby on
-rails but without the bloat and the loss of flexibility since it
-always remains express.</p>
-
+      </p>
     </div>
     <script src="js/jquery-2.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

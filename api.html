@@ -26,7 +26,7 @@
             <li class="active"><a href="api.html">Docs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span style="color:#2B3E50;background-color:whitesmoke" class="badge"><i class="fa fa-code"></i> developer preview</span></a></li>
+            <li><a href="project-state.html"><span style="color:#2B3E50;background-color:whitesmoke" class="badge"><i class="fa fa-code"></i> developer preview</span></a></li>
             <li><a href="http://domachine.de"><small>Done by</small><strong style="color: #DE716B;"> do</strong><strong style="color: white;">machine</strong></a></li>
           </ul>
         </div>
@@ -35,8 +35,8 @@
       <!-- /.container-fluid-->
     </nav>
     <div class="container">
-      <div class="alert alert-warning"><strong>Warning!</strong><span><p><em>This is now in developer preview</em>.  Check out the <a href="api.html">docs</a> and
- try.  Your feedback is welcome.</p>
+      <div class="alert alert-warning"><strong>Warning!</strong><span><p><em>This is now in developer preview</em>.  Check out the
+ <a href="api.html">docs</a> and try.  Your feedback is welcome.</p>
 </span></div>
       <h1>Getting started</h1><h1 id="api">Api</h1>
 <h2 id="architect-app-">architect(app)</h2>
@@ -45,11 +45,63 @@ application <code>app</code>.  The instance is a <code>function</code> described
 <p><em>e.g.</em></p>
 <script src="https://gist.github.com/domachine/4f425a871cfa62616ad6.js"></script>
 
-<h2 id="instance-">instance()</h2>
+<h2 id="instance-model-name-plural-controllers-">instance(model|name, [plural], controllers)</h2>
 <p>Instantiates a new resource on the architect and registers the
 corresponding routes.</p>
-<h2 id="architect-middleware-">architect.middleware()</h2>
-<h2 id="architect-controllers-">architect.controllers()</h2>
+<p><em>Arguments</em></p>
+<ul>
+<li><p><code>model|name</code> - This can be either a mongoose model or a simple
+resource name like <em>user</em>.</p>
+</li>
+<li><p><code>plural</code> - Per default <code>the architect</code> will construct the plural by appending
+a <em>s</em> to the name.  If the resource plural is different you can
+pass it using this argument.</p>
+</li>
+<li><p><code>controllers</code> - This is the map of controllers</p>
+<ul>
+<li><code>list</code></li>
+<li><code>new</code></li>
+<li><code>show</code></li>
+<li><code>edit</code></li>
+<li><code>create</code></li>
+<li><code>update</code></li>
+<li><code>partialUpdate</code></li>
+<li><code>destroy</code></li>
+</ul>
+<p>each value must be a valid
+<a href="http://expressjs.com/4x/api.html#app.METHOD">express route handler</a>.</p>
+</li>
+</ul>
+<h2 id="architect-middleware-model-opts-">architect.middleware([model], [opts])</h2>
+<p>Instantiates a new middleware bundle for the specified arguments.  If no model
+or opts are given, they are derived from the router.</p>
+<p><em>Options</em></p>
+<ul>
+<li><code>name</code> - Specify the resource name if no model is available.</li>
+<li><code>plural</code> - Specify the resource plural if no model is available.</li>
+<li><code>key</code> - The param-name to read the id from the url.</li>
+<li><code>collectionName</code> - The collection-name to use if no model is available.</li>
+</ul>
+<h3 id="available-middleware">Available middleware</h3>
+<h4 id="-load-">.load()</h4>
+<p>Load the object using the id read from the url params.</p>
+<h4 id="-loadall-">.loadAll()</h4>
+<p>Load all available objects and populate them under the resource plural.</p>
+<h4 id="-update-">.update()</h4>
+<p>Update the loaded object.</p>
+<h4 id="-save-">.save()</h4>
+<p>Save the loaded object.</p>
+<h4 id="-redirectonsuccess-url-">.redirectOnSuccess(url)</h4>
+<p>Redirect after a successful save operation.</p>
+<h4 id="-destroy-">.destroy()</h4>
+<p>Remove the loaded object from the database.</p>
+<h4 id="-redirect-url-">.redirect(url)</h4>
+<p>Redirect to <code>url</code>.</p>
+<h4 id="-view-name-">.view(name)</h4>
+<p>Render the specified view.</p>
+<h2 id="architect-controllers-model-opts-">architect.controllers([model], [opts])</h2>
+<p>This takes the exact same arguments as <code>.middleware()</code>.</p>
+<p>It returns an object with controllers for each resource action.</p>
 
     </div>
     <script src="js/jquery-2.1.1.min.js"></script>

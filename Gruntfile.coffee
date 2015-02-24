@@ -5,6 +5,7 @@ module.exports = (grunt) ->
     'index'
     'getting-started'
     'api'
+    'project-state'
   ]
 
   grunt.initConfig
