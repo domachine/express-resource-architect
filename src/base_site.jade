@@ -21,7 +21,15 @@ block content
           li(class={active: filename === 'getting-started.html'})
             a(href='getting-started.html')
               | Getting started
+          li(class={active: filename === 'api.html'})
+            a(href='api.html')
+              | Docs
         ul.nav.navbar-nav.navbar-right
+          li
+            a(href='#')
+              span.badge(style='color:#2B3E50;background-color:whitesmoke')
+                i.fa.fa-code
+                |  developer preview
           li
             a(href='http://domachine.de')
               small Done by
@@ -31,6 +39,14 @@ block content
     // /.container-fluid
 
   .container
+    .alert.alert-warning
+      strong Warning!
+      span
+        :md
+
+          *This is now in developer preview*.  Check out the
+           [docs](api.html) and try.  Your feedback is welcome.
+
     block site_content
 
   script(src='js/jquery-2.1.1.min.js')
