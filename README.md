@@ -1,6 +1,8 @@
 # express-resource-architect
 ## *Kickstart applications with resources*
 
+[![Build Status](https://travis-ci.org/domachine/express-resource-architect.svg?branch=master)](https://travis-ci.org/domachine/express-resource-architect)
+
 *This currently is in heavy development*.  It might quickly
  change. You should probably not use it before *1.0.0*.
 
