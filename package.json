@@ -1,6 +1,6 @@
 {
   "name": "express-resource-architect",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Build restful routed applications.",
   "main": "lib/index.js",
   "dependencies": {},
