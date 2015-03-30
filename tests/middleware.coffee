@@ -12,10 +12,77 @@ describe 'middleware', ->
     @employees = [new @Employee(), new @Employee()]
     @employee = architect.middleware(@Employee, {name: 'emp'})
 
-  it 'should create a new middleware bundle', ->
-    m = @employee
-    for key in m.__middleware
-      (typeof m[key]).should.equal 'function'
+  describe '#init', ->
+    before ->
+      @check = (m) ->
+        for key in m.__middleware
+          (typeof m[key]).should.equal 'function'
+
+      @injectTestMiddleware = (fn) ->
+        @employee.testMiddleware = ->
+          (req, res, done) ->
+            return fn(req, res, done) if fn?
+            done()
+
+        @employee._middleware 'testMiddleware'
+
+    it 'should create a new middleware bundle', ->
+      @employee = architect.middleware(@Employee, {name: 'emp'})
+      @check @employee
+      @employee = architect.middleware(@Employee)
+      @check @employee
+
+    it 'should load the properties correctly', (done) ->
+      @employee = architect.middleware(@Employee)
+      @injectTestMiddleware()
+      @testMiddleware {}, {}, @employee.testMiddleware(), (err, req, res) =>
+        return done(err) if err
+        req.resource.name.should.equal 'employee'
+        req.resource.plural.should.equal 'employees'
+        req.resource.key.should.equal 'employee'
+        req.resource.collectionName.should.equal 'employees'
+        done()
+
+    it 'should load the properties correctly', (done) ->
+      @employee = architect.middleware(@Employee)
+      @injectTestMiddleware()
+
+      injector = (req, res, done) ->
+        req.resource =
+          name: 'testi'
+        done()
+
+      @testMiddleware {}, {}, [
+        injector
+        @employee.testMiddleware()
+      ], (err, req, res) =>
+        return done() if err
+        req.resource.name.should.equal 'testi'
+        req.resource.plural.should.equal 'employees'
+        req.resource.key.should.equal 'employee'
+        req.resource.collectionName.should.equal 'employees'
+        done()
+
+    it 'should load the properties correctly', (done) ->
+      @employee = architect.middleware(@Employee)
+      @injectTestMiddleware()
+
+      injector = (req, res, done) ->
+        req.resource =
+          plural: 'testi'
+          key: 'test'
+        done()
+
+      @testMiddleware {}, {}, [
+        injector
+        @employee.testMiddleware()
+      ], (err, req, res) =>
+        return done() if err
+        req.resource.name.should.equal 'employee'
+        req.resource.plural.should.equal 'testi'
+        req.resource.key.should.equal 'test'
+        req.resource.collectionName.should.equal 'employees'
+        done()
 
   describe '#new', ->
     it 'should setup a new object', (done) ->

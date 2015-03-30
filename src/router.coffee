@@ -47,8 +47,8 @@ module.exports = (app) ->
       app[method] "/#{plural}#{path}", [
         (req, res, done) ->
           req.resource =
-            name: name
-            plural: plural
+            key: name
+            collectionName: plural
             Model: Model
           done()
 

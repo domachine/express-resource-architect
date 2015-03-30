@@ -125,7 +125,7 @@ describe 'router', ->
 
     @app.__handlers.get['/employees'][0] req, res, =>
       should.exist req.resource
-      req.resource.name.should.equal 'employee'
-      req.resource.plural.should.equal 'employees'
+      req.resource.key.should.equal 'employee'
+      req.resource.collectionName.should.equal 'employees'
       req.resource.Model.should.equal @Employee
       done()
